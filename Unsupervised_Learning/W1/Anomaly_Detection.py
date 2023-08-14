@@ -110,9 +110,14 @@ def select_threshold(y_val,p_val):
             best_epsilon = epsilon
     return best_epsilon, best_F1
 
+
+p = multivariate_gaussian(X_train, mu, var)
+
+p_val = multivariate_gaussian(X_val, mu, var)
+epsilon, F1 = select_threshold(y_val, p_val)
+
 #Find the outliers in the training set
 outliers = p < epsilon
-
 #Visualize the fit
 visualize_fit(X_train, mu, var)
 # Draw a red circle around those outliers
