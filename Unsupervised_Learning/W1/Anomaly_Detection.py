@@ -123,3 +123,26 @@ visualize_fit(X_train, mu, var)
 # Draw a red circle around those outliers
 plt.plot(X_train[outliers, 0], X_train[outliers, 1], 'ro',
          markersize= 10,markerfacecolor='none', markeredgewidth=2)
+
+###High dimensional dataset¶
+
+#Now, we will run the anomaly detection algorithm that you implemented on a more realistic and much harder dataset.
+X_train_high, X_val_high, y_val_high = load_data_multi()
+print ('The shape of X_train_high is:', X_train_high.shape)
+print ('The shape of X_val_high is:', X_val_high.shape)
+print ('The shape of y_val_high is: ', y_val_high.shape)
+
+# Apply the same steps to the larger dataset
+
+# Estimate the Gaussian parameters
+mu_high, var_high = estimate_gaussian(X_train_high)
+# Evaluate the probabilites for the training set
+p_high = multivariate_gaussian(X_train_high, mu_high, var_high)
+# Evaluate the probabilites for the cross validation set
+p_val_high = multivariate_gaussian(X_val_high, mu_high, var_high)
+# Find the best threshold
+epsilon_high, F1_high = select_threshold(y_val_high, p_val_high)
+
+print('Best epsilon found using cross-validation: %e'% epsilon_high)
+print('Best F1 on Cross Validation Set:  %f'% F1_high)
+print('# Anomalies found: %d'% sum(p_high < epsilon_high))
