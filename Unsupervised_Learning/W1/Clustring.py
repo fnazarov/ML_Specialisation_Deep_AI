@@ -103,3 +103,33 @@ max_iters = 10
 
 # Run K-Means
 centroids, idx = run_kMeans(X, initial_centroids, max_iters, plot_progress=True)
+
+###In this part of the exercise, you should understand how the function kMeans_init_centroids is implemented
+
+def kMeans_init_centroids(X,K):
+    """
+    This function initializes K centroids that are to be used in K-Means on the dataset X
+
+
+    :param X: (ndarray) (m,n) Data Points
+    :param K: int, number of centroids/clusters
+    :return: ndarray: Initialized Centroids
+    """
+    #Randomly reorder the indices of examples
+
+    randidx = np.random.permutation(X.shape[0])
+
+    #Take the first K examples as centroids
+
+    centroids = X[randidx[:K]]
+
+    return centroids
+###Lets run K-Means again but this time with random initial centroids
+
+K = 3
+max_iters = 10
+#Set initial centroids by picking random examples from dataset
+initial_centroids = kMeans_init_centroids(X, K)
+
+#Run K-Means
+centroids, idx = run_kMeans(X, initial_centroids, max_iters, plot_progress=True)
